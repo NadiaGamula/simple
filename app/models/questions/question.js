@@ -14,6 +14,7 @@
         this.type = spec.type;
         this.score = ko.observable(spec.score);
         this.learningContents = spec.learningContents;
+        this.questionInstructions = spec.questionInstructions;
         this.isAnswered = false;
         this.isCorrectAnswered = false;
         this.affectProgress = true;
@@ -36,6 +37,7 @@
         this.content = null;
         this.loadContent = loadContent;
         this.loadLearningContent = loadLearningContent;
+        this.loadQuestionInstructions = loadQuestionInstructions;
         this.load = load;
 
         this.voiceOver = spec.voiceOver;
@@ -94,6 +96,21 @@
         });
     }
 
+    function loadQuestionInstructions() {
+        var that = this;
+        var requests = [];
+        _.each(that.questionInstructions, function (item) {
+            if (_.isNullOrUndefined(item.content)) {
+                requests.push(http.get('content/' + that.sectionId + '/' + that.id + '/' + item.id + '.html')
+                    .then(function (response) {
+                        item.content = response;
+                    }));
+            }
+        });
+
+        return Q.allSettled(requests);
+    }
+
     function loadLearningContent() {
         var that = this;
         var requests = [];
@@ -111,7 +128,7 @@
 
     function load() {
         var that = this;
-        return that.loadContent().then(function () {
+        return that.loadQuestionInstructions().then(function () {
             return that.loadLearningContent().then(function () {
                 return that.loadFeedback();
             });

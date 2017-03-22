@@ -11,7 +11,7 @@
             <section id="learning-contents" class="learning-contents" data-animate="">
                 <ul class="learning-content-items unstyled">
                     <!-- ko foreach: learningContents-->
-                    <li class="learning-content-item styled-content" data-bind="learningContent: content"></li>
+                    <li class="learning-content-item styled-content" data-bind="contentBlock: content"></li>
                     <!-- /ko -->
                 </ul>
             </section>
@@ -25,6 +25,15 @@
         <div tabindex="-1" class="question-title selectable" data-bind="text: title, css: { 'autofocus': !isAnswered() }">
             question title
         </div>
+        <!-- ko if: questionInstructions.length > 0 -->
+        <section id="question-instructions" class="question-instructions" data-animate="">
+            <ul class="question-instruction-items unstyled">
+                <!-- ko foreach: questionInstructions-->
+                <li class="question-instruction-item styled-content" data-bind="contentBlock: content"></li>
+                <!-- /ko -->
+            </ul>
+        </section>
+        <!-- /ko -->
         <!-- ko compose: activeQuestionViewModel --><!-- /ko -->
         <!-- ko compose: { view: feedbackView } --><!-- /ko -->
         <!-- ko ifnot: isAnswered -->

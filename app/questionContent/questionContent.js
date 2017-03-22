@@ -17,6 +17,7 @@ define(['knockout', 'plugins/router', 'constants', 'modules/questionsNavigation'
             this.isSurvey = false;
 
             this.learningContents = [];
+            this.questionInstructions = [];
             this.correctFeedback = ko.observable(null);
             this.incorrectFeedback = ko.observable(null);
             this.feedbackView = '';
@@ -85,6 +86,7 @@ define(['knockout', 'plugins/router', 'constants', 'modules/questionsNavigation'
             this.isSurvey = !!question.isSurvey;
 
             this.learningContents = this.question.learningContents;
+            this.questionInstructions = this.question.questionInstructions;
             this.correctFeedback(this.question.feedback.correct);
             this.incorrectFeedback(this.question.feedback.incorrect);
 
